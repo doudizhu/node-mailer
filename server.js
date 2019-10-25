@@ -43,7 +43,7 @@ app.post('/addUser',(req,res)=>{
           email: req.body.email,
         })
 
-        newUser.save().then(()=>{
+        newUser.save().then((user)=>{
           res.status(200).json({
             state:'suc',
             msg:'添加用户成功',
