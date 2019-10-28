@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const nodemailer = require('nodemailer')
+require('dotenv').config()
 
 const User = require('./models/User')
 
@@ -71,15 +72,14 @@ app.post('/retrievePwd', (req, res) => {
         service: 'qq',
         secure: true,
         auth:{
-          user: '3563387158@qq.com', // 使用的邮箱
-          pass: 'uruatupakrcwchde', // IMAP/SMTP服务
+          user: process.env.EMAIL, // 使用的邮箱
+          pass: process.env.PASSWORD, // IMAP/SMTP服务
         },
       })
       // step 2 发送内容配置
       let mailOptions = {
-        from: '3563387158@qq.com', // 使用的邮箱
-        // to:req.body.email,
-        to: user.email, // 发送至邮箱
+        from: process.env.EMAIL, // 使用的邮箱
+        to: req.body.email || user.email, // 发送至邮箱(请求发过来的，或者当前账户对应的)
         // cc:'抄送',
         // bcc:'密送',
         subject:'找回密码',
